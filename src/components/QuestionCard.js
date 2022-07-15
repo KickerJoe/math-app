@@ -10,16 +10,73 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const QuestionCard = (props) => {
     
-    
     const [question, setQuestion] = useState(createLine());
-    console.log(question);
+    
+    const [ans, setAns] = useState("");
 
-    //const line = createLine();
-    const [ans, setAns] = useState(0);
+    
+    const [toggleWrong, setToggleWrong] = useState("d-none");
+    const [toggleCorrect, setToggleCorrect] = useState("d-none");
+    const [onOff, setOnOff] = useState(true);
+    const [butColor, setButColor] = useState("primary");
+    const [butText, setButText] = useState("Submit");
 
-    const getAns = (event) =>{
+    const handleInput = (event) => {
         setAns(event.target.value);
-        console.log(event);
+    };
+
+    const checkAns = (event) =>{
+        event.preventDefault();
+
+        switch(ans){
+            case (question.distance):
+                return (
+                    setButColor("success"),
+                    setToggleCorrect(""),
+                    setButText("Yes!"),
+                    setAns("")
+                    
+                );
+            case (""):
+                return (
+                    setButColor("primary"),
+                    setToggleCorrect("d-none"),
+                    setToggleWrong("d-none"),
+                    setButText("Submit"),
+                    setAns(null)
+                    
+                );
+            default:
+                return(
+                    setButColor("danger"),
+                    setToggleWrong(""),
+                    setButText("Try Again"),
+                    setAns(null)
+                    
+                );
+
+        }       
+        
+        /* if(question.distance === parseInt(ans)){
+           setButColor("success");
+           setToggleCorrect("");
+           setButText("Yes!");
+           event.target.value = "";
+           
+            
+        }
+        else if(question.distance !== parseInt(ans)){
+            setButColor("danger");
+            setToggleWrong("");
+            setButText("Try Agin");
+            event.target.value = "";
+
+        } */
+    };
+
+    const handleSubmit = (event) =>{
+        event.preventDefault();
+        alert(`Yes!`);
     };
   
     return(
@@ -33,19 +90,28 @@ const QuestionCard = (props) => {
                             {`Find the distance between the two points whose coordinates are (${question.point1.x} , ${question.point1.y}) and
                             (${question.point2.x} , ${question.point2.y}).`} 
                         </CardText>
+                        <div>{question.distance}</div>
                         <div>{ans}</div>
-                        <Form inline>
+                        <Form inline onSubmit={handleSubmit}>
                             <FormGroup>
-                                <Label for = 'answer' hidden>Your answer</Label>
+                                <Label htmlFor = 'answer' hidden>Your answer</Label>
                                 <Input id='answer' name='answer' type='number' 
                                     placeholder="Round to nearest whole number"
-                                    onSubmit={getAns}/>
+                                    value ={ans} onChange = {handleInput}
+                                />
                             </FormGroup>
                             {' '}
-                            <div className="text-center">
-                                <Button color='primary'>Submit</Button>
+                            <div className="text-center" >
+                                <Button  onClick = {checkAns} color={butColor} type="submit">{butText}</Button>
+                                <div className = {toggleWrong}>
+                                    <p>Incorrect. Please Try Again.</p>
+                                </div>
+                                <div className = {toggleCorrect}>
+                                    <p>Correct. Would you like another question?</p>
+                                </div>
                             </div>
                         </Form>
+                        
                     </CardBody>
                 </Card>
             </div>
