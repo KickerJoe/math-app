@@ -28,56 +28,40 @@ const QuestionCard = (props) => {
     const checkAns = (event) =>{
         event.preventDefault();
 
-        switch(ans){
+        switch(parseInt(ans)){
             case (question.distance):
                 return (
-                    setButColor("success"),
+                    //setButColor("success"),
                     setToggleCorrect(""),
-                    setButText("Yes!"),
-                    setAns("")
+                    setToggleWrong("d-none"),
+                    //setButText("Yes!"),
+                    setAns(0)
                     
                 );
-            case (""):
+            case (0):
                 return (
-                    setButColor("primary"),
+                    //setButColor("primary"),
                     setToggleCorrect("d-none"),
                     setToggleWrong("d-none"),
-                    setButText("Submit"),
-                    setAns(null)
+                    //setButText("Submit"),
+                    setAns(0)
                     
                 );
             default:
                 return(
-                    setButColor("danger"),
+                    //setButColor("danger"),
+                    setToggleCorrect("d-none"),
                     setToggleWrong(""),
-                    setButText("Try Again"),
-                    setAns(null)
+                    //setButText("Try Again"),
+                    setAns(0)
                     
                 );
 
         }       
-        
-        /* if(question.distance === parseInt(ans)){
-           setButColor("success");
-           setToggleCorrect("");
-           setButText("Yes!");
-           event.target.value = "";
-           
-            
-        }
-        else if(question.distance !== parseInt(ans)){
-            setButColor("danger");
-            setToggleWrong("");
-            setButText("Try Agin");
-            event.target.value = "";
-
-        } */
     };
 
-    const handleSubmit = (event) =>{
-        event.preventDefault();
-        alert(`Yes!`);
-    };
+    console.log(`User answer: ${ans}`);
+    console.log(`Distance: ${question.distance}`)
   
     return(
         <div className='row'>
@@ -90,9 +74,7 @@ const QuestionCard = (props) => {
                             {`Find the distance between the two points whose coordinates are (${question.point1.x} , ${question.point1.y}) and
                             (${question.point2.x} , ${question.point2.y}).`} 
                         </CardText>
-                        <div>{question.distance}</div>
-                        <div>{ans}</div>
-                        <Form inline onSubmit={handleSubmit}>
+                        <Form inline>
                             <FormGroup>
                                 <Label htmlFor = 'answer' hidden>Your answer</Label>
                                 <Input id='answer' name='answer' type='number' 
@@ -101,13 +83,17 @@ const QuestionCard = (props) => {
                                 />
                             </FormGroup>
                             {' '}
-                            <div className="text-center" >
-                                <Button  onClick = {checkAns} color={butColor} type="submit">{butText}</Button>
+                            <div className="text-center">
+                                <Button  className="mb-2" onClick = {checkAns} color={butColor} type="submit">{butText}</Button>
                                 <div className = {toggleWrong}>
                                     <p>Incorrect. Please Try Again.</p>
                                 </div>
                                 <div className = {toggleCorrect}>
                                     <p>Correct. Would you like another question?</p>
+                                    <Button  onClick = {()=>{
+                                        setQuestion(createLine());
+                                        setToggleCorrect("d-none");
+                                        }} color="primary">New Question</Button>
                                 </div>
                             </div>
                         </Form>
