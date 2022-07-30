@@ -17,7 +17,7 @@ const QuestionCard = (props) => {
     
     const [toggleWrong, setToggleWrong] = useState("d-none");
     const [toggleCorrect, setToggleCorrect] = useState("d-none");
-    const [onOff, setOnOff] = useState(true);
+    const [onOff, setOnOff] = useState(false);
     
    
 
@@ -33,19 +33,20 @@ const QuestionCard = (props) => {
                 return (
                     setToggleCorrect(""),
                     setToggleWrong("d-none"),
-                    setAns(0)
+                    setAns(""),
+                    setOnOff(true)
                 );
             case (0):
                 return (
                     setToggleCorrect("d-none"),
                     setToggleWrong("d-none"),
-                    setAns(0)
+                    setAns("")
                 );
             default:
                 return(
                     setToggleCorrect("d-none"),
                     setToggleWrong(""),
-                    setAns(0)
+                    setAns("")
                 );
         }       
     };
@@ -75,9 +76,10 @@ const QuestionCard = (props) => {
                             {' '}
                             <div className="text-center">
                                 <Button  
-                                    className="mb-2" 
+                                    className= "mb-2" 
                                     color='primary'
-                                    onClick = {checkAns} 
+                                    onClick = {checkAns}
+                                    disabled = {onOff} 
                                     type="submit"
                                 >
                                     Submit
@@ -90,6 +92,7 @@ const QuestionCard = (props) => {
                                     <Button  
                                         onClick = {()=>{
                                         setQuestion(createLine());
+                                        setOnOff(false);
                                         setToggleCorrect("d-none");
                                         }} 
                                         color="primary"
