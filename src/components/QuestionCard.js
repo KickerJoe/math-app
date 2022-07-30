@@ -18,8 +18,8 @@ const QuestionCard = (props) => {
     const [toggleWrong, setToggleWrong] = useState("d-none");
     const [toggleCorrect, setToggleCorrect] = useState("d-none");
     const [onOff, setOnOff] = useState(true);
-    const [butColor, setButColor] = useState("primary");
-    const [butText, setButText] = useState("Submit");
+    
+   
 
     const handleInput = (event) => {
         setAns(event.target.value);
@@ -31,41 +31,31 @@ const QuestionCard = (props) => {
         switch(parseInt(ans)){
             case (question.distance):
                 return (
-                    //setButColor("success"),
                     setToggleCorrect(""),
                     setToggleWrong("d-none"),
-                    //setButText("Yes!"),
                     setAns(0)
-                    
                 );
             case (0):
                 return (
-                    //setButColor("primary"),
                     setToggleCorrect("d-none"),
                     setToggleWrong("d-none"),
-                    //setButText("Submit"),
                     setAns(0)
-                    
                 );
             default:
                 return(
-                    //setButColor("danger"),
                     setToggleCorrect("d-none"),
                     setToggleWrong(""),
-                    //setButText("Try Again"),
                     setAns(0)
-                    
                 );
-
         }       
     };
 
     console.log(`User answer: ${ans}`);
-    console.log(`Distance: ${question.distance}`)
+    console.log(`Distance: ${question.distance}`);
   
     return(
-        <div className='row'>
-            <div className='col-sm-4'>
+        <Row>
+            <Col sm='6'>
                 <Card color='light'>
                     <CardHeader className='text-center' tag="h3">Distance Formula</CardHeader>
                     <CardBody>
@@ -84,24 +74,35 @@ const QuestionCard = (props) => {
                             </FormGroup>
                             {' '}
                             <div className="text-center">
-                                <Button  className="mb-2" onClick = {checkAns} color={butColor} type="submit">{butText}</Button>
+                                <Button  
+                                    className="mb-2" 
+                                    color='primary'
+                                    onClick = {checkAns} 
+                                    type="submit"
+                                >
+                                    Submit
+                                </Button>
                                 <div className = {toggleWrong}>
                                     <p>Incorrect. Please Try Again.</p>
                                 </div>
                                 <div className = {toggleCorrect}>
                                     <p>Correct. Would you like another question?</p>
-                                    <Button  onClick = {()=>{
+                                    <Button  
+                                        onClick = {()=>{
                                         setQuestion(createLine());
                                         setToggleCorrect("d-none");
-                                        }} color="primary">New Question</Button>
+                                        }} 
+                                        color="primary"
+                                    >
+                                        New Question
+                                    </Button>
                                 </div>
                             </div>
                         </Form>
-                        
                     </CardBody>
                 </Card>
-            </div>
-        </div>
+            </Col>
+        </Row>
     );
 };
 
